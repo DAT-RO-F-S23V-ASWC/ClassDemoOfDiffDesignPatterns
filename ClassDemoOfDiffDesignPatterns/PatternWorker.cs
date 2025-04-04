@@ -39,14 +39,14 @@ namespace ClassDemoOfDiffDesignPatterns
             //DemoFacade();
             //DemoProxy();
             //DemoDecorator();
-            DemoComposite();
+            //DemoComposite();
 
 
 
             /*
              * Demo Behavioral pattern
              */
-            //DemoObserver();
+            DemoObserver();
             //DemoTemplate();
             //DemoStrategy();
             //DemoState();
@@ -180,21 +180,33 @@ namespace ClassDemoOfDiffDesignPatterns
         // Make Observer
         private void DemoObserver()
         {
-            // I am observer
+            // I am not observer
             ObservableObject obj = new ObservableObject(3, "text");
             obj.Text = "Peter"; // nothing happen
 
-            
+            obj.PropertyChanged += (senderObj, args) =>
+            {
+                Console.WriteLine("Anonyous method: " + args.PropertyName);
+            };
+
+
             obj.Text = "Anders";
+
+            obj.PropertyChanged += MyObserver;
 
             obj.Id = 99;
 
+            obj.PropertyChanged -= MyObserver;
+
             obj.Id = 222;
+
+            Console.WriteLine(obj);
         }
 
-        
-
-
+        private void MyObserver(object sender, PropertyChangedEventArgs e)
+        {
+            Console.WriteLine("Named Method : " + e.PropertyName);
+        }
 
         private void DemoTemplate()
         {

@@ -6,12 +6,13 @@ using ClassDemoOfDiffDesignPatterns.Annotations;
 
 namespace ClassDemoOfDiffDesignPatterns.pattern.BehavioralPattern.observer
 {
-    class ObservableObject
+    class ObservableObject:INotifyPropertyChanged
     {
         private int _id;
         private String _text;
 
         
+
         public ObservableObject(int id, string text)
         {
             _id = id;
@@ -29,7 +30,7 @@ namespace ClassDemoOfDiffDesignPatterns.pattern.BehavioralPattern.observer
             {
                 if (value == _id) return;
                 _id = value;
-                
+                Notify("Id");
                 
             }
         }
@@ -41,9 +42,24 @@ namespace ClassDemoOfDiffDesignPatterns.pattern.BehavioralPattern.observer
             {
                 if (value == _text) return;
                 _text = value;
-                
+                Notify("Text");
                 }
         }
+
+
+
+        /*
+         * Observer support
+         */
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void Notify(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+
+
 
         public override string ToString()
         {
